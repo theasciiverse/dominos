@@ -9,9 +9,10 @@
 //! become the spinner's arm on the opposite side.
 
 use crate::tile::Tile;
+use serde::{Deserialize, Serialize};
 
 /// One of the four directions a layout can grow in.
-#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug, Serialize, Deserialize)]
 pub enum Arm {
     Left,
     Right,
@@ -38,7 +39,7 @@ impl Arm {
 
 /// A tile in an arm: `inner` touches the tile before it, `outer` is open
 /// (or touches the tile after it).
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub struct Link {
     pub inner: u8,
     pub outer: u8,
@@ -54,7 +55,7 @@ impl Link {
     }
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct Board {
     /// The middle tile, as its left and right numbers.
     root: Option<(u8, u8)>,

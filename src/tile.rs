@@ -1,5 +1,6 @@
 //! The tiles of a double-six set.
 
+use serde::{Deserialize, Serialize};
 use std::fmt;
 
 /// The highest number on a tile: a double-six set.
@@ -7,7 +8,7 @@ pub const TOP: u8 = 6;
 
 /// A tile, stored with its smaller number first, so two tiles with the
 /// same numbers are equal however they are turned.
-#[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 pub struct Tile {
     pub lo: u8,
     pub hi: u8,

@@ -1,14 +1,16 @@
 [package]
 name = "dominos"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
-description = "Dominoes in the terminal: the Block game, the Draw game and All Fives"
+description = "Dominoes in the terminal: the Block game, the Draw game and All Fives, against the computer or on the local network"
 repository = "https://github.com/theasciiverse/dominos"
 
 [dependencies]
 ratatui = "0.30"
 log = "0.4"
 env_logger = "0.11"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
 [profile.release]
 lto = "thin"

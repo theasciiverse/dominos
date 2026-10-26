@@ -1,8 +1,10 @@
 //! The rule sets, as data. Each follows a page on pagat.com, read
 //! 2026-10-26; where the page offers variations, the main text is used.
 
+use serde::{Deserialize, Serialize};
+
 /// Which game is played.
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum Kind {
     Block,
     Draw,
@@ -107,13 +109,24 @@ pub const ALL_FIVES: Rules = Rules {
 
 pub const ALL: [Rules; 3] = [BLOCK, DRAW, ALL_FIVES];
 
+pub fn of(kind: Kind) -> Rules {
+    match kind {
+        Kind::Block => BLOCK,
+        Kind::Draw => DRAW,
+        Kind::AllFives => ALL_FIVES,
+    }
+}
+
 impl Rules {
     pub fn hand_size(&self, players: usize) -> usize {
         self.deal[players.clamp(2, 4) - 2]
     }
 
-    pub fn target(&self, players: usize) -> u32 {
-        if players == 2 {
+    /// The target: the two-player one also for partners in the Block
+    /// and Draw games (pagat: "100 points in a two player or partnership
+    /// game"); All Fives is 200 for three or four, partners or not.
+    pub fn target(&self, players: usize, teams: bool) -> u32 {
+        if players == 2 || (teams && self.kind != Kind::AllFives) {
             self.target[0]
         } else {
             self.target[1]

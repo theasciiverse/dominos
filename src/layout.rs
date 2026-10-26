@@ -324,7 +324,7 @@ mod tests {
         for rules in ALL {
             for players in 2..=4 {
                 for seed in 0..10 {
-                    let (mut g, _) = Game::new(rules, players, seed);
+                    let (mut g, _) = Game::new(rules, players, false, seed);
                     let mut rng = Rng::new(seed);
                     while matches!(g.phase, Phase::Playing) {
                         let legal = g.legal();

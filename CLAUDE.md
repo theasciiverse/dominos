@@ -5,9 +5,10 @@ beside chess-tui, termsuji (Go) and Nard (backgammon). Own git repo,
 branch `main`, private at github.com/theasciiverse/dominos. Licence: not
 chosen (David chooses case by case), so Cargo.toml names none.
 
-**Status (2026-10-26):** version 0.1.0 playable: the Block game, the
-Draw game and All Fives, you against one to three computer players at
-three strengths, keys and mouse, help (F1 or ?), `--demo`.
+**Status (2026-10-26):** version 0.2.0 playable: the Block game, the
+Draw game and All Fives, two to four players, partners at four, against
+the computer at three strengths or with people on the local network,
+keys and mouse, help (F1 or ?), `--demo`.
 
 ## Why build it
 
@@ -31,17 +32,24 @@ full-screen and none worth packaging.
 - Stack (David, 2026-10-26): Rust + Ratatui 0.30, edition 2024
 - Name (David, 2026-10-26): Dominos, binary `dominos`
 - Players (David, 2026-10-26): one person against one to three computer
-  players for now; **local network play soon**. Hence the engine is pure:
+  players, and local network play. The engine is pure:
   `Game::apply(Action) -> Result<Vec<Event>>`, refusing anything not
-  legal, dealing from a seeded RNG, the computer seeing only what its
-  seat can see
+  legal, dealing from a seeded RNG
+- Network play (David, 2026-10-26): **the host runs the game** and sends
+  each player only their own `View` (their hand, the table, counts) and
+  the events with others' drawn tiles hidden, so a modified client cannot
+  see other hands; **tables are found by LAN broadcast**, with a typed
+  address as the fallback; **empty seats are filled by the computer**
+- Rule readings below kept as they are (David, 2026-10-26)
+- Partners (2026-10-26, after pagat): four players only, sitting
+  opposite; a menu option
 
 ## Rules and their sources
 
 Read 2026-10-26 on pagat.com: Block (`pagat.com/tile/wdom/block.html`),
 Draw (`.../draw.html`), All Fives (`pagat.com/domino/cross/all_fives.html`).
 Main text used where the pages offer variations. Choices where the pages
-leave a gap, to check with David:
+leave a gap, kept by David (2026-10-26):
 
 - First lead by lot (all three pages: "draw for lead"), as a random seat
 - Block and Draw scoring: the lowest count scores "the losers' total minus
@@ -49,18 +57,40 @@ leave a gap, to check with David:
 - All Fives: the page gives the blocked-hand scoring (others' pips to the
   nearest five) but not the scoring for playing out; the same is used
 - All Fives deals 9, 7, 5 (pagat's main text; it lists other deals)
-- All Fives four players: free-for-all here; pagat says it is usually
-  played in partnerships (not built yet)
+- All Fives four players: free-for-all or partners, on the menu (pagat:
+  usually partners)
+- Partners in the Block and Draw games follow pagat's Partnership
+  Dominoes (`pagat.com/tile/wdom/partnership.html`): partners opposite,
+  a blocked hand goes to the side with the lower combined pips, which
+  scores the losing side's pips, its own ignored; to 100 (the Block and
+  Draw pages: "100 points in a two player or partnership game")
+- Partners in All Fives: points made in play go to the side; a blocked
+  hand goes to the side with fewer combined pips (pagat: "the player or
+  team with fewest points"), scoring the opponents' pips to the nearest
+  five; to 200
 
 ## Code
 
 `src/`: `tile.rs`, `rules.rs` (rule sets as data), `board.rs` (the layout
 as a root and four arms; the first double in All Fives becomes the root,
 turning the line around it; the count of the ends), `game.rs` (deal,
-legal actions, apply, hand scoring), `ai.rs`, `layout.rs` (screen
-positions: arms run straight and turn clockwise at the table's edge, a
-pinwheel; large pip tiles, else small numbered ones), `draw.rs`
-(colours, tiles), `ui.rs`, `app.rs` (menu, input, timing), `help.rs`.
+legal actions, apply, hand scoring by side), `view.rs` (one seat's view:
+the screen, the computer and the network all use it), `ai.rs` (chooses
+from a `View`), `table.rs` (a game run here: who sits where, the
+computer's timing, the next deal once every person is ready; the host's
+lobby), `net.rs` (JSON lines over TCP port 47520, or any free port;
+finding tables by UDP broadcast to port 47521, also asking 127.0.0.1 for
+a host on the same machine; messages capped at 1 MB), `layout.rs`
+(screen positions: arms run straight and turn clockwise at the table's
+edge, a pinwheel; large pip tiles, else small numbered ones), `draw.rs`
+(colours, tiles), `ui.rs`, `app.rs` (screens, input), `help.rs`.
+
+Network behaviour: players who join take the open seats in order; a
+started game is no longer advertised and refuses newcomers; a player who
+leaves is replaced by the computer (normal); the next hand waits for
+every person to press Enter; the host leaving closes the table for all.
+`table::tests::a_game_over_the_network` plays a whole partners game over
+loopback with two guests and checks no guest sees another's draw.
 
 The large tiles fit while the layout is a line; a spinner's top and
 bottom arms need about 24 rows of table, so on 100x30 the layout uses
@@ -78,9 +108,9 @@ Options: `--seed N`, `--demo`, `--rules block|draw|fives`,
 
 ## Open questions (David's to decide)
 
-- Local network play: how players find each other, who deals
-- Partnerships for four (All Fives, and the Block and Draw games' 100-point
-  partnership game)
+- Letting the host move people between seats in the lobby (say, to make
+  two people partners); now joiners take seats in order
+- Play over the internet, beyond the local network
 - More games later: Muggins, Fives and Threes, Mexican Train, Chinese
   dominoes
 - Catalog entry, preview recording, licence

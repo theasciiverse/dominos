@@ -1,4 +1,5 @@
-//! Dominos: the Block game, the Draw game and All Fives in the terminal.
+//! Dominos: the Block game, the Draw game and All Fives in the terminal,
+//! against the computer or with others on the local network.
 //!
 //! Options: `--seed N`, `--demo` (the computer plays every seat, game
 //! after game), `--rules block|draw|fives`, `--quit-after SECONDS`. Log
@@ -11,10 +12,13 @@ mod draw;
 mod game;
 mod help;
 mod layout;
+mod net;
 mod rng;
 mod rules;
+mod table;
 mod tile;
 mod ui;
+mod view;
 
 use app::App;
 use ratatui::crossterm::event::{
