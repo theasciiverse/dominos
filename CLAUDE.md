@@ -1,7 +1,7 @@
 # Dominos
 
 A terminal dominoes game for the Asciiverse catalog (David, 2026-10-25),
-beside chess-tui, termsuji (Go) and the planned Backgammon. Own git repo,
+beside chess-tui, termsuji (Go) and Nard (backgammon). Own git repo,
 branch `main`, private at github.com/theasciiverse/dominos. Licence: not
 chosen (David chooses case by case), so Cargo.toml names none.
 
@@ -25,7 +25,7 @@ full-screen and none worth packaging.
   2026-10-25), and shares no code with it
 - A graphical style of its own (David, 2026-10-25): green baize, ivory
   tiles with black pips, crimson for what is chosen, gold for scores.
-  Ancient Games is amber on black, Backgammon brass, walnut and turquoise
+  Ancient Games is amber on black, Nard brass, walnut and turquoise
 - Games (David, 2026-10-26): Block, Draw and All Fives as one title with
   rule sets, chosen on the menu
 - Stack (David, 2026-10-26): Rust + Ratatui 0.30, edition 2024
