@@ -399,6 +399,24 @@ impl HostLobby {
         notes
     }
 
+    /// Move whoever sits at `from` to `to`, changing places with whoever
+    /// (or whichever open seat) is there. The host stays at seat 0. Those
+    /// moved are told their new seats.
+    pub fn swap(&mut self, from: usize, to: usize) {
+        let n = self.names.len();
+        if from == 0 || to == 0 || from >= n || to >= n || from == to {
+            return;
+        }
+        self.names.swap(from, to);
+        self.conns.swap(from, to);
+        for seat in [from, to] {
+            if let Some(conn) = self.conns[seat] {
+                self.server.send(conn, &ToGuest::Welcome { seat });
+            }
+        }
+        self.tell();
+    }
+
     /// Deal: open seats go to the computer.
     pub fn start(self, seed: u64) -> (Table, Update) {
         self.server.advertise(None);
@@ -444,6 +462,45 @@ mod tests {
     use crate::net::Connection;
     use std::net::SocketAddr;
     use std::thread;
+
+    /// The host moves a guest to the seat opposite, to be partners.
+    #[test]
+    fn the_host_moves_a_guest() {
+        let settings = Settings {
+            rules: 0,
+            players: 4,
+            teams: true,
+            strength: Strength::Normal,
+        };
+        let mut lobby = HostLobby::open(settings, "Host").unwrap();
+        let addr = SocketAddr::from(([127, 0, 0, 1], lobby.server.port));
+        let guest = Connection::connect(addr, "Ann").unwrap();
+        let deadline = Instant::now() + Duration::from_secs(5);
+        while lobby.names[1].is_none() {
+            lobby.poll();
+            assert!(Instant::now() < deadline, "the guest did not sit down");
+            thread::sleep(Duration::from_millis(10));
+        }
+        lobby.swap(1, 2);
+        lobby.swap(0, 2);
+        assert_eq!(lobby.names[0].as_deref(), Some("Host"));
+        assert_eq!(lobby.names[2].as_deref(), Some("Ann"));
+        assert!(lobby.names[1].is_none());
+        let mut seat = None;
+        while seat != Some(2) {
+            for msg in guest.poll() {
+                if let Some(ToGuest::Welcome { seat: s }) = msg {
+                    seat = Some(s);
+                }
+            }
+            assert!(Instant::now() < deadline, "the guest was not told");
+            thread::sleep(Duration::from_millis(10));
+        }
+        // the game deals Ann the seat she was moved to
+        let (table, _) = lobby.start(1);
+        assert!(matches!(table.sitters[2], Sitter::Remote(_)));
+        assert!(matches!(table.sitters[1], Sitter::Computer(_)));
+    }
 
     /// A host with two computer players and two people on the network,
     /// who play by the computer's choice from their own view, through to

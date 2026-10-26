@@ -269,6 +269,14 @@ fn lobby(app: &App, buf: &mut Buffer, w: i32, h: i32) {
                 plain(MUTED),
             ),
         };
+        let picked = host_here && lobby.players > 2 && seat == app.lobby_seat;
+        let (text, style) = if picked {
+            (format!("{text} ◂▸"), chosen())
+        } else {
+            (text, style)
+        };
+        let marker = if picked { "▸" } else { " " };
+        put(buf, x - 2, y, marker, bold(plain(CRIMSON)));
         put(
             buf,
             x,
@@ -310,7 +318,9 @@ fn lobby(app: &App, buf: &mut Buffer, w: i32, h: i32) {
     for (i, line) in app.log.iter().rev().take(3).enumerate() {
         centred(buf, 0, y + 2 + i as i32, w, line, plain(MUTED));
     }
-    let keys = if host_here {
+    let keys = if host_here && lobby.players > 2 {
+        "↑↓ choose a seat   ←→ move them   Enter deal   Esc close the table"
+    } else if host_here {
         "Enter deal   Esc close the table"
     } else {
         "Esc leave"

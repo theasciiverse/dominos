@@ -85,7 +85,10 @@ a host on the same machine; messages capped at 1 MB), `layout.rs`
 edge, a pinwheel; large pip tiles, else small numbered ones), `draw.rs`
 (colours, tiles), `ui.rs`, `app.rs` (screens, input), `help.rs`.
 
-Network behaviour: players who join take the open seats in order; a
+Network behaviour: players who join take the open seats in order, and
+the host can move them in the lobby (↑↓ a seat, ←→ move whoever sits
+there; David, 2026-10-26), say to make two people partners; the host
+keeps seat 1; a
 started game is no longer advertised and refuses newcomers; a player who
 leaves is replaced by the computer (normal); the next hand waits for
 every person to press Enter; the host leaving closes the table for all.
@@ -108,8 +111,6 @@ Options: `--seed N`, `--demo`, `--rules block|draw|fives`,
 
 ## Open questions (David's to decide)
 
-- Letting the host move people between seats in the lobby (say, to make
-  two people partners); now joiners take seats in order
 - Play over the internet, beyond the local network
 - More games later: Muggins, Fives and Threes, Mexican Train, Chinese
   dominoes

@@ -72,6 +72,8 @@ pub struct App {
     pub menu_row: usize,
     pub finder: Option<Finder>,
     pub join_row: usize,
+    /// The seat picked in the host's lobby, to move whoever sits there.
+    pub lobby_seat: usize,
     /// An address being typed on the Join screen.
     pub typing: Option<String>,
     /// A word for the person on the menu or Join screen.
@@ -108,6 +110,7 @@ impl App {
             menu_row: ROW_PLAY,
             finder: None,
             join_row: 0,
+            lobby_seat: 1,
             typing: None,
             notice: None,
             demo,
@@ -205,6 +208,7 @@ impl App {
         match HostLobby::open(self.settings, &self.name) {
             Ok(lobby) => {
                 self.reset_table();
+                self.lobby_seat = 1;
                 if !lobby.server.findable {
                     self.log.push(
                         "Another table on this machine answers searches: players type the address."
@@ -607,6 +611,38 @@ impl App {
                 self.absorb(update);
             }
             KeyCode::Char('q') | KeyCode::Esc => self.leave(None),
+            _ => self.seat_key(code),
+        }
+    }
+
+    /// The host picks a seat and moves whoever sits there; seat 0 is the
+    /// host's own.
+    fn seat_key(&mut self, code: KeyCode) {
+        let Session::Hosting(lobby) = &mut self.session else {
+            return;
+        };
+        let others = lobby.names.len() - 1;
+        if others < 2 {
+            return;
+        }
+        let along = |seat: usize, by: usize| (seat - 1 + by) % others + 1;
+        match code {
+            KeyCode::Up | KeyCode::Char('k') => {
+                self.lobby_seat = along(self.lobby_seat, others - 1)
+            }
+            KeyCode::Down | KeyCode::Char('j') | KeyCode::Tab => {
+                self.lobby_seat = along(self.lobby_seat, 1)
+            }
+            KeyCode::Left | KeyCode::Char('h') | KeyCode::Right | KeyCode::Char('l') => {
+                let by = if matches!(code, KeyCode::Left | KeyCode::Char('h')) {
+                    others - 1
+                } else {
+                    1
+                };
+                let to = along(self.lobby_seat, by);
+                lobby.swap(self.lobby_seat, to);
+                self.lobby_seat = to;
+            }
             _ => {}
         }
     }
