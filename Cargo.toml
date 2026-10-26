@@ -1,0 +1,15 @@
+[package]
+name = "dominos"
+version = "0.1.0"
+edition = "2024"
+description = "Dominoes in the terminal: the Block game, the Draw game and All Fives"
+repository = "https://github.com/theasciiverse/dominos"
+
+[dependencies]
+ratatui = "0.30"
+log = "0.4"
+env_logger = "0.11"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
