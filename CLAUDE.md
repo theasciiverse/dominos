@@ -10,6 +10,13 @@ Draw game and All Fives, two to four players, partners at four, against
 the computer at three strengths or with people on the local network,
 keys and mouse, help (F1 or ?), `--demo`.
 
+On the website mockup since 2026-10-26 with the NEW! banner: an entry in
+`websites/Asciiverse/dev/mock-titles.toml` (original game, licence not
+chosen, so not in `hub/catalog` yet), preview `asciiverse/dominos.cast`
+(`asciiverse/record-preview.sh`, hub's `castrec.py`: `--demo --seed 1`,
+45 s, still at 3 s) copied to the site's `casts/`, local Linux build
+packaged by the site's `dev/build_catalog.py` into `dev-releases/`.
+
 ## Why build it
 
 Checked 2026-10-25 (web search and GitHub search for dominoes with
@@ -114,4 +121,4 @@ Options: `--seed N`, `--demo`, `--rules block|draw|fives`,
 - Play over the internet, beyond the local network
 - More games later: Muggins, Fives and Threes, Mexican Train, Chinese
   dominoes
-- Catalog entry, preview recording, licence
+- Licence (the catalog entry and preview are done, 2026-10-26)
