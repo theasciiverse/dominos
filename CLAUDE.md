@@ -3,7 +3,8 @@
 A terminal dominoes game for the Asciiverse catalog (David, 2026-10-25).
 Decided to build (David, 2026-10-25), beside chess-tui, termsuji (Go)
 and the planned Backgammon. Not started: this folder and these notes
-only, no code yet.
+only, no code yet. Own git repo, branch `main`, private at
+github.com/theasciiverse/dominos.
 
 ## Why build it
 
