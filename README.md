@@ -1,6 +1,10 @@
 # Dominos
 
-The Block game, the Draw game and All Fives on green baize, against the computer or friends on the local network, partners at four.
+**IVORY TILES. GREEN BAIZE. CLACK!**
+
+The Block game, the Draw game and All Fives on green baize, against a sly
+computer or friends round the table on the local network, partners at four.
+Pull up a chair, and nobody minds if you count on your fingers.
 
 ## Play
 
