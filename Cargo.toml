@@ -1,6 +1,6 @@
 [package]
 name = "dominos"
-version = "0.2.0"
+version = "0.5.0"
 edition = "2024"
 license = "MIT"
 description = "Dominoes in the terminal: the Block game, the Draw game and All Fives, against the computer or on the local network"
