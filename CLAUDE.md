@@ -2,8 +2,8 @@
 
 A terminal dominoes game for the Asciiverse catalog (David, 2026-10-25),
 beside chess-tui, termsuji (Go) and Nard (backgammon). Own git repo,
-branch `main`, private at github.com/theasciiverse/dominos. Licence: not
-chosen (David chooses case by case), so Cargo.toml names none.
+branch `main`, private at github.com/theasciiverse/dominos. Licence: MIT
+(David, 2026-10-27).
 
 **Status (2026-10-26):** version 0.2.0 playable: the Block game, the
 Draw game and All Fives, two to four players, partners at four, against
@@ -11,8 +11,8 @@ the computer at three strengths or with people on the local network,
 keys and mouse, help (F1 or ?), `--demo`.
 
 On the website mockup since 2026-10-26 with the NEW! banner: an entry in
-`websites/Asciiverse/dev/mock-titles.toml` (original game, licence not
-chosen, so not in `hub/catalog` yet), preview `asciiverse/dominos.cast`
+`websites/Asciiverse/dev/mock-titles.toml` (original game, not in
+`hub/catalog` yet; licence MIT), preview `asciiverse/dominos.cast`
 (`asciiverse/record-preview.sh`, hub's `castrec.py`: `--demo --seed 1`,
 45 s, still at 3 s) copied to the site's `casts/`, local Linux build
 packaged by the site's `dev/build_catalog.py` into `dev-releases/`.
@@ -121,4 +121,3 @@ Options: `--seed N`, `--demo`, `--rules block|draw|fives`,
 - Play over the internet, beyond the local network
 - More games later: Muggins, Fives and Threes, Mexican Train, Chinese
   dominoes
-- Licence (the catalog entry and preview are done, 2026-10-26)

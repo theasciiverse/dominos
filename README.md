@@ -22,3 +22,7 @@ unpack it and run `./dominos`.
 
 An original Asciiverse game. Rules after pagat.com's Block, Draw and All
 Fives.
+
+## Licence
+
+MIT; see [LICENSE](LICENSE).
