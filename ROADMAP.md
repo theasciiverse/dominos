@@ -14,12 +14,20 @@ everything below is in.
   host moves players between seats
 - [x] Keys and mouse, help (F1 or ?), `--demo`
 
-## 0.6.0: more games
+## 0.6.0: two at one computer, and touch
+
+- [ ] Two people at one computer (hot seat), with or without computer
+  players in the other seats; each hand hidden while the other plays
+- [ ] Mouse support good enough for a touch screen: every choice a tap
+  (menus, the lobby, tiles, which end to play on, drawing, passing), big
+  enough targets, nothing that needs a right click, a drag or hovering
+
+## 0.7.0: more games
 
 - [ ] More games, if they are wanted (David's to decide): Muggins, Fives
   and Threes, Mexican Train, Chinese dominoes
 
-## 0.7.0: further than the local network
+## 0.8.0: further than the local network
 
 - [ ] Play over the internet, if it is wanted (David's to decide)
 - [ ] Network play on two physical machines on a real LAN
