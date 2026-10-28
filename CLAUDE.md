@@ -5,10 +5,11 @@ beside chess-tui, termsuji (Go) and Nard (backgammon). Own git repo,
 branch `main`, private at github.com/theasciiverse/dominos. Licence: MIT
 (David, 2026-10-27).
 
-**Status (2026-10-26):** version 0.2.0 playable: the Block game, the
+**Status (2026-10-28):** version 0.5.0 playable: the Block game, the
 Draw game and All Fives, two to four players, partners at four, against
 the computer at three strengths or with people on the local network,
 keys and mouse, help (F1 or ?), `--demo`.
+What comes next, release by release, is in `ROADMAP.md`.
 
 On the website mockup since 2026-10-26 with the NEW! banner: an entry in
 `websites/Asciiverse/dev/mock-titles.toml` (original game, not in
